@@ -1,0 +1,30 @@
+Lab02: Crazyflie Assembly
+<PUT NAMES HERE>
+
+Part 1: 8
+
+Q1. What are the two chips on the Bus Blaster? Which companies manufacture them? 
+    What are their general purposes? What are they specifically used for on the Bus Blaster?
+
+Part 2: 5
+
+Q2. Take a 5 second (-ish) video of the green LED blinking. No need to (somehow) embed the video
+    here.
+
+Part 4: 7
+
+Q5. What is the Makefile target that must be called?
+
+Q6. What is a bootloader? What is the main purpose of the Crazyflie bootloader? I.e. what is
+    the main functionality provided by the bootloader? 
+
+Q7. How does the CLOAD value affect the compiled firmware?
+
+Part 5: 15
+
+Q3. What is this second method to load a program to the STM chip? Give a brief overview 
+    (4/5 sentences) of how you would use the method. Notice we are referring to the chip, 
+    so the method should not have anything to do with the Crazyflie code base.
+
+Q4. Without altering the Crazyflie PCB, is it possible to use this method to flash code onto 
+    the Crazyflie? How or why not?
