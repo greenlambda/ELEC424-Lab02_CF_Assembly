@@ -1,10 +1,23 @@
 Lab02: Crazyflie Assembly
-<PUT NAMES HERE>
+Christopher Buck (cmb15)
+Jeremy Hunt (jrh6)
+9-18-14
 
 Part 1: 8
 
 Q1. What are the two chips on the Bus Blaster? Which companies manufacture them? 
     What are their general purposes? What are they specifically used for on the Bus Blaster?
+
+The Bus Blaster v4, designed by Dangerous Prototypes, contains two main chips: 
+a FTDI FT2232H High Speed USB 2.0 to Serial UART adapter and a Xilinx Coolrunner-II
+Computer Programmable Logic Device (CPLD). The FTDI chip generates the raw JTAG signal using
+the Multi-Protocol Synchronous Serial Engine (MPSSE) and GPIO taking commands from the
+computer over USB. These signals are routed through the CPLD which has two functions: to level
+shift the 3.3V signals from the FTDI chip to whatever voltage the end device power supply is
+using and to provide simple intermediate logic between the FTDI chip and the end device such
+as tri-stating buffers or combining the signals into SWD. In the case of the crazyflie, it is
+just being used as a tri-stating buffer.
+
 
 Part 2: 5
 
@@ -15,10 +28,23 @@ Part 4: 7
 
 Q5. What is the Makefile target that must be called?
 
+cload
+
+
 Q6. What is a bootloader? What is the main purpose of the Crazyflie bootloader? I.e. what is
     the main functionality provided by the bootloader? 
 
+The bootloader is a small program that runs first, before any other programs in an embedded
+system, which decides which program will be run and allows you to receive data to reprogram
+the chip or run the program currently on the chip.
+
+
 Q7. How does the CLOAD value affect the compiled firmware?
+
+When specified to a value of 1, the CLOAD parameter instructs the linker to link the firmware
+so the bootloader can load it and so the firmware does not overwrite the bootloader. 
+Otherwise the firmware is linked so the bootloader is overwritten and the firmware runs first.
+
 
 Part 5: 15
 
@@ -26,5 +52,19 @@ Q3. What is this second method to load a program to the STM chip? Give a brief o
     (4/5 sentences) of how you would use the method. Notice we are referring to the chip, 
     so the method should not have anything to do with the Crazyflie code base.
 
+The second method is the embedded bootloader. To enable this mode, one must set BOOT1 to 0 and
+BOOT0 to 1. Under this mode the chip will boot a bootloader which is written during production
+which allows you to write the flash using one of the serial USART or SPI lines. In order to use
+these, we would configure the bootloader to run when (for instance) a switch was toggled, then
+reset the controller with the chosen USART line connected to another computer or microcontroller.
+This other computer would send the program binary to the bootloader on the STM chip, which would
+then flash program itself.
+
+
 Q4. Without altering the Crazyflie PCB, is it possible to use this method to flash code onto 
     the Crazyflie? How or why not?
+
+No, because according to the schematic, the BOOT0 pin is pulled down to ground, preventing it
+from ever entering the System Memory mode. With BOOT0 at GND, the chip will always boot from
+main flash memory.
+
